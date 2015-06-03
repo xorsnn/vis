@@ -1695,7 +1695,6 @@ return /******/ (function(modules) { // webpackBootstrap
       value: function _redraw() {
         var hidden = arguments[0] === undefined ? false : arguments[0];
 
-        console.log('redraw');
         this.body.emitter.emit('initRedraw');
 
         this.redrawRequested = false;
@@ -1989,8 +1988,7 @@ return /******/ (function(modules) { // webpackBootstrap
           // automatically adapt to a changing size of the browser.
           this._cleanUp();
           this.resizeTimer = setInterval(function () {
-            //let changed = this.setSize();
-            var changed = true;
+            var changed = _this2.setSize();
             if (changed === true) {
               _this2.body.emitter.emit('_requestRedraw');
             }
@@ -2177,6 +2175,8 @@ return /******/ (function(modules) { // webpackBootstrap
           this.options.height = height;
 
           emitEvent = true;
+
+          console.log('location one');
         } else {
           // this would adapt the width of the canvas to the width from 100% if and only if
           // there is a change.
@@ -2189,9 +2189,12 @@ return /******/ (function(modules) { // webpackBootstrap
             this.frame.canvas.height = this.frame.canvas.clientHeight * this.pixelRatio;
             emitEvent = true;
           }
+
+          console.log('location two');
         }
 
         if (emitEvent === true) {
+          console.log('location three');
           this.body.emitter.emit('resize', { width: this.frame.canvas.width / this.pixelRatio, height: this.frame.canvas.height / this.pixelRatio, oldWidth: oldWidth / this.pixelRatio, oldHeight: oldHeight / this.pixelRatio });
         }
 
