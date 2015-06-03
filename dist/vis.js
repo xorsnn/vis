@@ -2190,7 +2190,7 @@ return /******/ (function(modules) { // webpackBootstrap
             emitEvent = true;
           }
 
-          console.log('location two');
+          console.log('location two', this.frame.canvas.width, this.frame.canvas.clientWidth, this.frame.canvas.height, this.frame.canvas.clientHeight, this.pixelRatio);
         }
 
         if (emitEvent === true) {
