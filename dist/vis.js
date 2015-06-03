@@ -2170,8 +2170,8 @@ return /******/ (function(modules) { // webpackBootstrap
           this.frame.canvas.style.width = '100%';
           this.frame.canvas.style.height = '100%';
 
-          this.frame.canvas.width = this.frame.canvas.clientWidth * this.pixelRatio;
-          this.frame.canvas.height = this.frame.canvas.clientHeight * this.pixelRatio;
+          this.frame.canvas.width = Math.round(this.frame.canvas.clientWidth * this.pixelRatio);
+          this.frame.canvas.height = Math.round(this.frame.canvas.clientHeight * this.pixelRatio);
 
           this.options.width = width;
           this.options.height = height;
@@ -2182,14 +2182,14 @@ return /******/ (function(modules) { // webpackBootstrap
         } else {
           // this would adapt the width of the canvas to the width from 100% if and only if
           // there is a change.
-          console.log('location two before', this.frame.canvas.width != this.frame.canvas.clientWidth * this.pixelRatio, this.frame.canvas.height != this.frame.canvas.clientHeight * this.pixelRatio, this.frame.canvas.width, this.frame.canvas.clientWidth, this.frame.canvas.height, this.frame.canvas.clientHeight, this.pixelRatio);
+          console.log('location two before', this.frame.canvas.width != Math.round(this.frame.canvas.clientWidth * this.pixelRatio), this.frame.canvas.height != Math.round(this.frame.canvas.clientHeight * this.pixelRatio), this.frame.canvas.width, this.frame.canvas.clientWidth, this.frame.canvas.height, this.frame.canvas.clientHeight, this.pixelRatio);
 
-          if (this.frame.canvas.width != this.frame.canvas.clientWidth * this.pixelRatio) {
-            this.frame.canvas.width = this.frame.canvas.clientWidth * this.pixelRatio;
+          if (this.frame.canvas.width != Math.round(this.frame.canvas.clientWidth * this.pixelRatio)) {
+            this.frame.canvas.width = Math.round(this.frame.canvas.clientWidth * this.pixelRatio);
             emitEvent = true;
           }
-          if (this.frame.canvas.height != this.frame.canvas.clientHeight * this.pixelRatio) {
-            this.frame.canvas.height = this.frame.canvas.clientHeight * this.pixelRatio;
+          if (this.frame.canvas.height != Math.round(this.frame.canvas.clientHeight * this.pixelRatio)) {
+            this.frame.canvas.height = Math.round(this.frame.canvas.clientHeight * this.pixelRatio);
             emitEvent = true;
           }
 
