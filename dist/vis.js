@@ -157,7 +157,7 @@ return /******/ (function(modules) { // webpackBootstrap
   };
 
   // bundled external libraries
-  exports.moment = __webpack_require__(5);
+  exports.moment = __webpack_require__(4);
   exports.hammer = __webpack_require__(25); // TODO: deprecate exports.hammer some day
   exports.Hammer = __webpack_require__(25);
 
@@ -185,7 +185,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
   'use strict';
 
-  var moment = __webpack_require__(5);
+  var moment = __webpack_require__(4);
   var uuid = __webpack_require__(8);
 
   /**
@@ -1708,6 +1708,7 @@ return /******/ (function(modules) { // webpackBootstrap
         if (this.pixelRatio === undefined) {
           this.pixelRatio = (window.devicePixelRatio || 1) / (ctx.webkitBackingStorePixelRatio || ctx.mozBackingStorePixelRatio || ctx.msBackingStorePixelRatio || ctx.oBackingStorePixelRatio || ctx.backingStorePixelRatio || 1);
         }
+        //this.pixelRatio = 1.25;
 
         ctx.setTransform(this.pixelRatio, 0, 0, this.pixelRatio, 0, 0);
 
@@ -1910,6 +1911,16 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
+  // first check if moment.js is already loaded in the browser window, if so,
+  // use this instance. Else, load via commonjs.
+  'use strict';
+
+  module.exports = typeof window !== 'undefined' && window['moment'] || __webpack_require__(6);
+
+/***/ },
+/* 5 */
+/***/ function(module, exports, __webpack_require__) {
+
   'use strict';
 
   Object.defineProperty(exports, '__esModule', {
@@ -2062,6 +2073,7 @@ return /******/ (function(modules) { // webpackBootstrap
           var ctx = this.frame.canvas.getContext('2d');
           this.pixelRatio = (window.devicePixelRatio || 1) / (ctx.webkitBackingStorePixelRatio || ctx.mozBackingStorePixelRatio || ctx.msBackingStorePixelRatio || ctx.oBackingStorePixelRatio || ctx.backingStorePixelRatio || 1);
 
+          //this.pixelRatio = 1.25;
           this.frame.canvas.getContext('2d').setTransform(this.pixelRatio, 0, 0, this.pixelRatio, 0, 0);
         }
 
@@ -2180,6 +2192,7 @@ return /******/ (function(modules) { // webpackBootstrap
         } else {
           // this would adapt the width of the canvas to the width from 100% if and only if
           // there is a change.
+          console.log('location two before', this.frame.canvas.width, this.frame.canvas.clientWidth, this.frame.canvas.height, this.frame.canvas.clientHeight, this.pixelRatio);
 
           if (this.frame.canvas.width != this.frame.canvas.clientWidth * this.pixelRatio) {
             this.frame.canvas.width = this.frame.canvas.clientWidth * this.pixelRatio;
@@ -2283,16 +2296,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
   exports['default'] = Canvas;
   module.exports = exports['default'];
-
-/***/ },
-/* 5 */
-/***/ function(module, exports, __webpack_require__) {
-
-  // first check if moment.js is already loaded in the browser window, if so,
-  // use this instance. Else, load via commonjs.
-  'use strict';
-
-  module.exports = typeof window !== 'undefined' && window['moment'] || __webpack_require__(6);
 
 /***/ },
 /* 6 */
@@ -11158,7 +11161,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
   var util = __webpack_require__(2);
   var Component = __webpack_require__(23);
-  var moment = __webpack_require__(5);
+  var moment = __webpack_require__(4);
   var locales = __webpack_require__(24);
 
   /**
@@ -14141,7 +14144,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
   var util = __webpack_require__(2);
   var hammerUtil = __webpack_require__(30);
-  var moment = __webpack_require__(5);
+  var moment = __webpack_require__(4);
   var Component = __webpack_require__(23);
   var DateUtil = __webpack_require__(31);
 
@@ -14887,7 +14890,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
   "use strict";
 
-  var moment = __webpack_require__(5);
+  var moment = __webpack_require__(4);
 
   /**
    * used in Core to convert the options into a volatile variable
@@ -19223,7 +19226,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
   'use strict';
 
-  var moment = __webpack_require__(5);
+  var moment = __webpack_require__(4);
   var DateUtil = __webpack_require__(31);
   var util = __webpack_require__(2);
 
@@ -20643,7 +20646,7 @@ return /******/ (function(modules) { // webpackBootstrap
   var Component = __webpack_require__(23);
   var TimeStep = __webpack_require__(38);
   var DateUtil = __webpack_require__(31);
-  var moment = __webpack_require__(5);
+  var moment = __webpack_require__(4);
 
   /**
    * A horizontal time axis
@@ -21439,7 +21442,7 @@ return /******/ (function(modules) { // webpackBootstrap
   var Hammer = __webpack_require__(25);
   var util = __webpack_require__(2);
   var Component = __webpack_require__(23);
-  var moment = __webpack_require__(5);
+  var moment = __webpack_require__(4);
   var locales = __webpack_require__(24);
 
   /**
@@ -26893,7 +26896,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
   var _modulesCanvasRenderer2 = _interopRequireDefault(_modulesCanvasRenderer);
 
-  var _modulesCanvas = __webpack_require__(4);
+  var _modulesCanvas = __webpack_require__(5);
 
   var _modulesCanvas2 = _interopRequireDefault(_modulesCanvas);
 
