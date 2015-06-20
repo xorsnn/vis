@@ -973,6 +973,10 @@ return /******/ (function(modules) { // webpackBootstrap
           hover: {
             background:lighterColorHex,
             border:darkerColorHex
+          },
+          glow: {
+            background:lighterColorHex,
+            border:darkerColorHex
           }
         };
       }
@@ -985,6 +989,10 @@ return /******/ (function(modules) { // webpackBootstrap
             border:color
           },
           hover: {
+            background:color,
+            border:color
+          },
+          glow: {
             background:color,
             border:color
           }
@@ -1018,6 +1026,18 @@ return /******/ (function(modules) { // webpackBootstrap
         c.hover = {};
         c.hover.background = color.hover && color.hover.background || c.background;
         c.hover.border = color.hover && color.hover.border || c.border;
+      }
+
+      if (exports.isString(color.glow)) {
+        c.glow = {
+          border: color.glow,
+          background: color.glow
+        }
+      }
+      else {
+        c.glow = {};
+        c.glow.background = color.glow && color.glow.background || c.background;
+        c.glow.border = color.glow && color.glow.border || c.border;
       }
     }
 
@@ -6352,6 +6372,7 @@ return /******/ (function(modules) { // webpackBootstrap
         radiusMin: 10,
         radiusMax: 30,
         radius: 10,
+        glowRadius: 40,
         shape: 'ellipse',
         image: undefined,
         widthMin: 16, // px
@@ -6371,6 +6392,10 @@ return /******/ (function(modules) { // webpackBootstrap
           hover: {
             border: '#2B7CE9',
             background: '#D2E5FF'
+          },
+          glow: {
+            border: '#F2DE02',
+            background: '#F2DE02'
           }
         },
         group: undefined,
@@ -12890,7 +12915,7 @@ return /******/ (function(modules) { // webpackBootstrap
     }
 
     var fields = ['borderWidth','borderWidthSelected','shape','image','brokenImage','radius','fontColor',
-      'fontSize','fontFace','fontFill','group','mass'
+      'fontSize','fontFace','fontFill','group','mass','glow'
     ];
     util.selectiveDeepExtend(fields, this.options, properties);
 
@@ -13678,6 +13703,18 @@ return /******/ (function(modules) { // webpackBootstrap
     ctx.lineWidth = (this.selected ? selectionLineWidth : borderWidth) + ((this.clusterSize > 1) ? clusterLineWidth : 0.0);
     ctx.lineWidth *= this.networkScaleInv;
     ctx.lineWidth = Math.min(this.width,ctx.lineWidth);
+
+    if (this.options.glow) {
+      ctx.save();
+      ctx.translate(this.x, this.y);
+      ctx.lineWidth = this.options.glowRadius;
+      ctx.lineJoin = 'round';
+      ctx.shadowBlur = this.options.glowRadius;
+      ctx.shadowColor = this.options.color.glow.background;
+      ctx[shape](0, 0, this.options.radius);
+      ctx.fill();
+      ctx.restore();
+    }
 
     ctx.fillStyle = this.selected ? this.options.color.highlight.background : this.hover ? this.options.color.hover.background : this.options.color.background;
     ctx[shape](this.x, this.y, this.options.radius);
