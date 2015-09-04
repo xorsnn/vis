@@ -5,7 +5,7 @@
  * A dynamic, browser-based visualization library.
  *
  * @version 3.8.0
- * @date    2015-06-20
+ * @date    2015-09-05
  *
  * @license
  * Copyright (C) 2011-2014 Almende B.V, http://almende.com
@@ -12915,7 +12915,7 @@ return /******/ (function(modules) { // webpackBootstrap
     }
 
     var fields = ['borderWidth','borderWidthSelected','shape','image','brokenImage','radius','fontColor',
-      'fontSize','fontFace','fontFill','group','mass','glow'
+      'fontSize','fontFace','fontFill','group','mass','glow','pinned'
     ];
     util.selectiveDeepExtend(fields, this.options, properties);
 
@@ -13764,7 +13764,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
       //pin button icon
 
-      if (this.xFixed && this.yFixed) {
+      if (this.options.pinned) {
         ctx.fillStyle = "#bbb";
         ctx.font = "" + pinButtonRadius + "px FontAwesome";
         var pinIconX = Math.round(pinButtonX);
