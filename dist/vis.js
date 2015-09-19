@@ -5,7 +5,7 @@
  * A dynamic, browser-based visualization library.
  *
  * @version 4.8.0
- * @date    2015-09-16
+ * @date    2015-09-19
  *
  * @license
  * Copyright (C) 2011-2015 Almende B.V, http://almende.com
@@ -29009,12 +29009,10 @@ return /******/ (function(modules) { // webpackBootstrap
     _createClass(Controls, [{
       key: '_updateBoundingBox',
       value: function _updateBoundingBox(x, y) {
-        if (this.width == null) {
-          this.width = this.options.size * 2;
-          this.height = this.options.size; // height is doubled actually
-        }
+        this.width = this.options.size * 2;
+        this.height = this._btnSize();
         this.left = x - this.options.size;
-        this.top = y - this.options.size * 3 / 2;
+        this.top = y - this.options.size - this.height;
       }
     }, {
       key: 'checkButton',
@@ -29025,12 +29023,13 @@ return /******/ (function(modules) { // webpackBootstrap
         if (x < this.left || this.left + this.width < x) {
           return false;
         }
-        if (y < this.top || this.top + this.height / 2 < y) {
+        if (y < this.top || this.top + this.height < y) {
           return false;
         }
         // quick & dirty
         var r = (x - this.left) / this.width;
-        return r < 0.3 ? 'close' : r > 0.7 ? 'pin' : false;
+        var bs = this._btnSize() / this.width;
+        return r <= bs ? 'remove' : 1 - bs <= r ? 'pin' : false;
       }
     }, {
       key: 'draw',
@@ -29043,16 +29042,19 @@ return /******/ (function(modules) { // webpackBootstrap
     }, {
       key: '_drawPinBtn',
       value: function _drawPinBtn(ctx, x, y) {
-        var btnSize = this.options.size / 4,
-            gap = btnSize / 3;
+        var btnSize = this._btnSize();
 
         ctx.save();
         ctx.translate(x, y);
-        ctx.translate(0.5 * (this.options.size + btnSize + gap), -0.86 * (this.options.size + btnSize + gap));
+        ctx.translate(this.options.size, -this.options.size);
+
+        ctx.translate(-btnSize, -btnSize);
+
+        ctx.translate(btnSize / 2, btnSize / 2);
 
         ctx.fillStyle = '#3F51B5';
         ctx.beginPath();
-        ctx.arc(0, 0, btnSize, 0, 2 * Math.PI);
+        ctx.arc(0, 0, btnSize / 2, 0, 2 * Math.PI);
         ctx.fill();
 
         if (this.options.fixed === false || this.options.fixed.x === false || this.options.fixed.y === false) {
@@ -29060,7 +29062,7 @@ return /******/ (function(modules) { // webpackBootstrap
         }
 
         ctx.fillStyle = '#BBB';
-        ctx.font = '' + btnSize + 'px FontAwesome';
+        ctx.font = '3px FontAwesome';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         ctx.fillText('', 0, 0);
@@ -29070,35 +29072,52 @@ return /******/ (function(modules) { // webpackBootstrap
     }, {
       key: '_drawRemoveBtn',
       value: function _drawRemoveBtn(ctx, x, y) {
-        var btnSize = this.options.size / 4,
-            gap = btnSize / 3;
+        var btnSize = this._btnSize();
 
         ctx.save();
         ctx.translate(x, y);
-        ctx.translate(-0.5 * (this.options.size + btnSize + gap), -0.86 * (this.options.size + btnSize + gap));
+        ctx.translate(-this.options.size, -this.options.size);
+
+        ctx.translate(0, -btnSize);
+
+        ctx.translate(btnSize / 2, btnSize / 2);
 
         ctx.fillStyle = '#C62828';
         ctx.beginPath();
-        ctx.arc(0, 0, btnSize, 0, 2 * Math.PI);
+        ctx.arc(0, 0, btnSize / 2, 0, 2 * Math.PI);
         ctx.fill();
 
         ctx.fillStyle = '#FFF';
-        ctx.font = '' + btnSize + 'px FontAwesome';
+        ctx.font = '3px FontAwesome';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         ctx.fillText('', 0, 0);
 
         ctx.restore();
       }
+
+      /* Normalize button size on scaled canvas */
+    }, {
+      key: '_btnSize',
+      value: function _btnSize() {
+        var minSize = arguments.length <= 0 || arguments[0] === undefined ? 20 : arguments[0];
+        var maxSize = arguments.length <= 1 || arguments[1] === undefined ? 35 : arguments[1];
+
+        var k = this.body.view.scale,
+            baseSize = 5;
+        return Math.min(Math.max(k * baseSize, minSize), maxSize) / k;
+      }
     }, {
       key: 'clear',
       value: function clear() {
-        this.top = this.left = null;
+        // this.top = this.left = null;
       }
     }, {
       key: 'isOverlappingWith',
       value: function isOverlappingWith(obj) {
-        return this.left < obj.right && this.left + this.width > obj.left && this.top < obj.bottom && this.top + this.height > obj.top;
+        var p = obj.left - this.left,
+            q = obj.top - this.top;
+        return !(p < 0 || this.width < p || q < 0 || this.height * 1.2 < q);
       }
     }]);
 
