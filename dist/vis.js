@@ -5,7 +5,7 @@
  * A dynamic, browser-based visualization library.
  *
  * @version 4.8.0
- * @date    2015-09-19
+ * @date    2015-09-23
  *
  * @license
  * Copyright (C) 2011-2015 Almende B.V, http://almende.com
@@ -29009,9 +29009,9 @@ return /******/ (function(modules) { // webpackBootstrap
     _createClass(Controls, [{
       key: '_updateBoundingBox',
       value: function _updateBoundingBox(x, y) {
-        this.width = this.options.size * 2;
+        this.width = Math.max(this.options.size * 2, this._btnSize() * 3);
         this.height = this._btnSize();
-        this.left = x - this.options.size;
+        this.left = x - this.width / 2;
         this.top = y - this.options.size - this.height;
       }
     }, {
@@ -29026,10 +29026,9 @@ return /******/ (function(modules) { // webpackBootstrap
         if (y < this.top || this.top + this.height < y) {
           return false;
         }
-        // quick & dirty
-        var r = (x - this.left) / this.width;
-        var bs = this._btnSize() / this.width;
-        return r <= bs ? 'remove' : 1 - bs <= r ? 'pin' : false;
+        var r = x - this.left,
+            bs = this._btnSize(); // quick & dirty
+        return r <= bs ? 'remove' : this.width - bs <= r ? 'pin' : false;
       }
     }, {
       key: 'draw',
@@ -29046,7 +29045,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
         ctx.save();
         ctx.translate(x, y);
-        ctx.translate(this.options.size, -this.options.size);
+        ctx.translate(this.width / 2, -this.options.size);
 
         ctx.translate(-btnSize, -btnSize);
 
@@ -29061,8 +29060,10 @@ return /******/ (function(modules) { // webpackBootstrap
           ctx.rotate(Math.PI / 6);
         }
 
+        ctx.scale(1 / this.body.view.scale, 1 / this.body.view.scale);
+
         ctx.fillStyle = '#BBB';
-        ctx.font = '3px FontAwesome';
+        ctx.font = '12pt FontAwesome';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         ctx.fillText('', 0, 0);
@@ -29076,7 +29077,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
         ctx.save();
         ctx.translate(x, y);
-        ctx.translate(-this.options.size, -this.options.size);
+        ctx.translate(-this.width / 2, -this.options.size);
 
         ctx.translate(0, -btnSize);
 
@@ -29087,8 +29088,10 @@ return /******/ (function(modules) { // webpackBootstrap
         ctx.arc(0, 0, btnSize / 2, 0, 2 * Math.PI);
         ctx.fill();
 
+        ctx.scale(1 / this.body.view.scale, 1 / this.body.view.scale);
+
         ctx.fillStyle = '#FFF';
-        ctx.font = '3px FontAwesome';
+        ctx.font = '12pt FontAwesome';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         ctx.fillText('', 0, 0);
@@ -29101,7 +29104,7 @@ return /******/ (function(modules) { // webpackBootstrap
       key: '_btnSize',
       value: function _btnSize() {
         var minSize = arguments.length <= 0 || arguments[0] === undefined ? 20 : arguments[0];
-        var maxSize = arguments.length <= 1 || arguments[1] === undefined ? 35 : arguments[1];
+        var maxSize = arguments.length <= 1 || arguments[1] === undefined ? 30 : arguments[1];
 
         var k = this.body.view.scale,
             baseSize = 5;
