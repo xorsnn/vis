@@ -5,7 +5,7 @@
  * A dynamic, browser-based visualization library.
  *
  * @version 4.8.0
- * @date    2015-09-23
+ * @date    2015-09-28
  *
  * @license
  * Copyright (C) 2011-2015 Almende B.V, http://almende.com
@@ -29945,9 +29945,33 @@ return /******/ (function(modules) { // webpackBootstrap
 
         //draw dashed border if enabled, save and restore is required for firefox not to crash on unix.
         ctx.save();
+
         this.enableBorderDashes(ctx);
+
         //draw the border
         ctx.stroke();
+
+        //**
+        //* XORS, draw border
+        //*
+
+        if (selected) {
+          var initial_angle = 0;
+          ctx.strokeStyle = '#F7941E';
+          ctx.beginPath();
+          ctx.arc(x, y, this.radius, initial_angle, Math.PI / 4 + initial_angle);
+          ctx.stroke();
+          ctx.beginPath();
+          ctx.arc(x, y, this.radius, Math.PI / 2 + initial_angle, Math.PI * 3 / 4 + initial_angle);
+          ctx.stroke();
+          ctx.beginPath();
+          ctx.arc(x, y, this.radius, Math.PI + initial_angle, Math.PI * 5 / 4 + initial_angle);
+          ctx.stroke();
+          ctx.beginPath();
+          ctx.arc(x, y, this.radius, Math.PI * 3 / 2 + initial_angle, Math.PI * 7 / 4 + initial_angle);
+          ctx.stroke();
+        }
+
         //disable dashed border for other elements
         this.disableBorderDashes(ctx);
         ctx.restore();
