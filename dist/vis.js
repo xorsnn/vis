@@ -29045,11 +29045,17 @@ return /******/ (function(modules) { // webpackBootstrap
 
         ctx.save();
         ctx.translate(x, y);
-        ctx.translate(this.width / 2, -this.options.size);
 
-        ctx.translate(-btnSize, -btnSize);
+        var buttonRelativeX = Math.round((this.options.size + btnSize / 2) * Math.sin(Math.PI / 180 * 30));
+        var buttonRelativeY = -Math.round((this.options.size + btnSize / 2) * Math.cos(Math.PI / 180 * 30));
 
-        ctx.translate(btnSize / 2, btnSize / 2);
+        if (buttonRelativeX < btnSize / 2) {
+          var alfa = Math.asin(btnSize / 2 / (btnSize / 2 + this.options.size));
+          buttonRelativeX = Math.round((this.options.size + btnSize / 2) * Math.sin(alfa));
+          buttonRelativeY = -Math.round((this.options.size + btnSize / 2) * Math.cos(alfa));
+        }
+
+        ctx.translate(buttonRelativeX, buttonRelativeY);
 
         ctx.fillStyle = '#3F51B5';
         ctx.beginPath();
@@ -29063,7 +29069,7 @@ return /******/ (function(modules) { // webpackBootstrap
         ctx.scale(1 / this.body.view.scale, 1 / this.body.view.scale);
 
         ctx.fillStyle = '#BBB';
-        ctx.font = '12pt FontAwesome';
+        ctx.font = '10pt FontAwesome';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         ctx.fillText('', 0, 0);
@@ -29077,11 +29083,17 @@ return /******/ (function(modules) { // webpackBootstrap
 
         ctx.save();
         ctx.translate(x, y);
-        ctx.translate(-this.width / 2, -this.options.size);
 
-        ctx.translate(0, -btnSize);
+        var buttonRelativeX = -Math.round((this.options.size + btnSize / 2) * Math.sin(Math.PI / 180 * 30));
+        var buttonRelativeY = -Math.round((this.options.size + btnSize / 2) * Math.cos(Math.PI / 180 * 30));
 
-        ctx.translate(btnSize / 2, btnSize / 2);
+        if (buttonRelativeX > -btnSize / 2) {
+          var alfa = Math.asin(btnSize / 2 / (btnSize / 2 + this.options.size));
+          buttonRelativeX = -Math.round((this.options.size + btnSize / 2) * Math.sin(alfa));
+          buttonRelativeY = -Math.round((this.options.size + btnSize / 2) * Math.cos(alfa));
+        }
+
+        ctx.translate(buttonRelativeX, buttonRelativeY);
 
         ctx.fillStyle = '#C62828';
         ctx.beginPath();
@@ -29091,7 +29103,7 @@ return /******/ (function(modules) { // webpackBootstrap
         ctx.scale(1 / this.body.view.scale, 1 / this.body.view.scale);
 
         ctx.fillStyle = '#FFF';
-        ctx.font = '12pt FontAwesome';
+        ctx.font = '10pt FontAwesome';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         ctx.fillText('', 0, 0);
