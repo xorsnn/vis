@@ -27743,6 +27743,7 @@ return /******/ (function(modules) { // webpackBootstrap
         shadow: {
           enabled: false,
           size: 10,
+          color: 'rgba(0,0,0,0.5)',
           x: 5,
           y: 5
         },
@@ -29258,15 +29259,15 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 66 */
 /***/ function(module, exports) {
 
-  'use strict';
+  "use strict";
 
-  Object.defineProperty(exports, '__esModule', {
+  Object.defineProperty(exports, "__esModule", {
     value: true
   });
 
-  var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+  var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
-  function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+  function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
   var NodeBase = (function () {
     function NodeBase(options, body, labelModule, controlsModule) {
@@ -29285,28 +29286,28 @@ return /******/ (function(modules) { // webpackBootstrap
     }
 
     _createClass(NodeBase, [{
-      key: 'setOptions',
+      key: "setOptions",
       value: function setOptions(options) {
         this.options = options;
       }
     }, {
-      key: '_distanceToBorder',
+      key: "_distanceToBorder",
       value: function _distanceToBorder(angle) {
         var borderWidth = 1;
         return Math.min(Math.abs(this.width / 2 / Math.cos(angle)), Math.abs(this.height / 2 / Math.sin(angle))) + borderWidth;
       }
     }, {
-      key: 'enableShadow',
+      key: "enableShadow",
       value: function enableShadow(ctx) {
         if (this.options.shadow.enabled === true) {
-          ctx.shadowColor = 'rgba(0,0,0,0.5)';
+          ctx.shadowColor = this.options.shadow.color;
           ctx.shadowBlur = this.options.shadow.size;
           ctx.shadowOffsetX = this.options.shadow.x;
           ctx.shadowOffsetY = this.options.shadow.y;
         }
       }
     }, {
-      key: 'disableShadow',
+      key: "disableShadow",
       value: function disableShadow(ctx) {
         if (this.options.shadow.enabled === true) {
           ctx.shadowColor = 'rgba(0,0,0,0)';
@@ -29316,7 +29317,7 @@ return /******/ (function(modules) { // webpackBootstrap
         }
       }
     }, {
-      key: 'enableBorderDashes',
+      key: "enableBorderDashes",
       value: function enableBorderDashes(ctx) {
         if (this.options.shapeProperties.borderDashes !== false) {
           if (ctx.setLineDash !== undefined) {
@@ -29332,7 +29333,7 @@ return /******/ (function(modules) { // webpackBootstrap
         }
       }
     }, {
-      key: 'disableBorderDashes',
+      key: "disableBorderDashes",
       value: function disableBorderDashes(ctx) {
         if (this.options.shapeProperties.borderDashes !== false) {
           if (ctx.setLineDash !== undefined) {
@@ -29348,8 +29349,8 @@ return /******/ (function(modules) { // webpackBootstrap
     return NodeBase;
   })();
 
-  exports['default'] = NodeBase;
-  module.exports = exports['default'];
+  exports["default"] = NodeBase;
+  module.exports = exports["default"];
 
 /***/ },
 /* 67 */
@@ -41256,6 +41257,7 @@ return /******/ (function(modules) { // webpackBootstrap
         size: { number: number },
         x: { number: number },
         y: { number: number },
+        color: { string: string },
         __type__: { object: object, boolean: boolean }
       },
       shape: { string: ['ellipse', 'circle', 'database', 'box', 'text', 'image', 'circularImage', 'diamond', 'dot', 'star', 'triangle', 'triangleDown', 'square', 'icon'] },
