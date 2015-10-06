@@ -29990,8 +29990,8 @@ return /******/ (function(modules) { // webpackBootstrap
         ctx.restore();
 
         if (this.options.label !== undefined) {
-          var yLabel = y + 0.5 * this.height + 3; // the + 3 is to offset it a bit below the node.
-          this.labelModule.draw(ctx, x, yLabel, selected, 'hanging');
+          var yLabel = y + 0.5 * this.height + 14; // the + 14 is to offset it a bit below the node.
+          this.labelModule.draw(ctx, x, yLabel, selected, 'top');
         }
 
         if (this.options.controls) {
