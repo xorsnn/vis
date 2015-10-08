@@ -5,7 +5,7 @@
  * A dynamic, browser-based visualization library.
  *
  * @version 4.8.0
- * @date    2015-10-06
+ * @date    2015-10-07
  *
  * @license
  * Copyright (C) 2011-2015 Almende B.V, http://almende.com
@@ -28919,7 +28919,11 @@ return /******/ (function(modules) { // webpackBootstrap
         this.size.height = this.fontOptions.size * this.lineCount;
         this.size.left = x - this.size.width * 0.5;
         this.size.top = y - this.size.height * 0.5;
-        this.size.yLine = y + (1 - this.lineCount) * 0.5 * this.fontOptions.size;
+        if (baseline == 'top' || baseline == 'hanging') {
+          this.size.yLine = y;
+        } else {
+          this.size.yLine = y + (1 - this.lineCount) * 0.5 * this.fontOptions.size;
+        }
         if (baseline === "hanging") {
           this.size.top += 0.5 * this.fontOptions.size;
           this.size.top += 4; // distance from node, required because we use hanging. Hanging has less difference between browsers
@@ -29990,8 +29994,8 @@ return /******/ (function(modules) { // webpackBootstrap
         ctx.restore();
 
         if (this.options.label !== undefined) {
-          var yLabel = y + 0.5 * this.height + 14; // the + 14 is to offset it a bit below the node.
-          this.labelModule.draw(ctx, x, yLabel, selected, 'top');
+          var yLabel = y + 0.5 * this.height + 3; // the + 14 is to offset it a bit below the node.
+          this.labelModule.draw(ctx, x, yLabel, selected, 'hanging');
         }
 
         if (this.options.controls) {
@@ -37702,11 +37706,12 @@ return /******/ (function(modules) { // webpackBootstrap
       value: function zoom(scale, pointer) {
         if (this.options.zoomView === true) {
           var scaleOld = this.body.view.scale;
-          if (scale < 0.00001) {
-            scale = 0.00001;
+
+          if (scale < this.options.zoomLimit.min) {
+            scale = this.options.zoomLimit.min;
           }
-          if (scale > 10) {
-            scale = 10;
+          if (scale > this.options.zoomLimit.max) {
+            scale = this.options.zoomLimit.max;
           }
 
           var preScaleDragPointer = undefined;
@@ -41163,6 +41168,11 @@ return /******/ (function(modules) { // webpackBootstrap
       hoverConnectedEdges: { boolean: boolean },
       tooltipDelay: { number: number },
       zoomView: { boolean: boolean },
+      zoomLimit: {
+        min: { number: number },
+        max: { number: number },
+        __type__: { object: object }
+      },
       __type__: { object: object }
     },
     layout: {
@@ -41487,7 +41497,11 @@ return /******/ (function(modules) { // webpackBootstrap
       selectConnectedEdges: true,
       hoverConnectedEdges: true,
       tooltipDelay: [300, 0, 1000, 25],
-      zoomView: true
+      zoomView: true,
+      zoomLimit: {
+        min: 0.1,
+        max: 1.5
+      }
     },
     manipulation: {
       enabled: false,
