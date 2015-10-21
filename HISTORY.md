@@ -2,6 +2,21 @@
 http://visjs.org
 
 
+## 2015-09-07, version 4.8.1
+
+### Network
+
+- Added German (de) locale. Thanks @Tooa.
+- Fixed critical camera zoom bug #1273.
+- Fixed unselectAll method. #1256
+- Fixed bug that broke the network if drawn in a hidden div #1254
+
+### Timeline
+
+- Fixed #1215: inconsistent types of properties `start` and `end` in callback
+  functions `onMove`, `onMoving`, `onAdd`.
+
+
 ## 2015-08-28, version 4.8.0
 
 ### Timeline
