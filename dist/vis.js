@@ -5,7 +5,7 @@
  * A dynamic, browser-based visualization library.
  *
  * @version 4.8.1
- * @date    2015-10-21
+ * @date    2015-10-29
  *
  * @license
  * Copyright (C) 2011-2015 Almende B.V, http://almende.com
@@ -31652,7 +31652,7 @@ return /******/ (function(modules) { // webpackBootstrap
       value: function parseOptions(parentOptions, newOptions) {
         var allowDeletion = arguments.length <= 2 || arguments[2] === undefined ? false : arguments[2];
 
-        var fields = ['id', 'from', 'hidden', 'hoverWidth', 'label', 'labelHighlightBold', 'length', 'line', 'opacity', 'physics', 'selectionWidth', 'selfReferenceSize', 'to', 'title', 'value', 'width'];
+        var fields = ['id', 'from', 'hidden', 'hoverWidth', 'label', 'labelHighlightBold', 'length', 'line', 'opacity', 'physics', 'selectionWidth', 'selfReferenceSize', 'to', 'title', 'value', 'width', 'csNodeAlign'];
 
         // only deep extend the items in the field array. These do not have shorthand.
         util.selectiveDeepExtend(fields, parentOptions, newOptions, allowDeletion);
@@ -32649,7 +32649,23 @@ return /******/ (function(modules) { // webpackBootstrap
           }
           // draw arrow at the end of the line
           length = (10 + 5 * this.options.width) * scaleFactor;
-          ctx.arrow(arrowPos.x, arrowPos.y, angle, length);
+
+          /**
+           * XORS add arrow aligned and erase visible spring part
+           */
+          if (this.options.csNodeAlign.enabled) {
+            ctx.save();
+            ctx.lineWidth += ctx.lineWidth * 0.05;
+            ctx.strokeStyle = '#e4e4e4'; //todo move to settings
+            ctx.beginPath();
+            ctx.moveTo(arrowPos.x + length * Math.cos(angle), arrowPos.y + length * Math.sin(angle));
+            ctx.lineTo(arrowPos.x - length * Math.cos(angle), arrowPos.y - length * Math.sin(angle));
+            ctx.stroke();
+            ctx.restore();
+            ctx.arrow(arrowPos.x, arrowPos.y, angle, length, ctx.lineWidth);
+          } else {
+            ctx.arrow(arrowPos.x, arrowPos.y, angle, length);
+          }
 
           // draw shadow if enabled
           this.enableShadow(ctx);
@@ -41286,6 +41302,11 @@ return /******/ (function(modules) { // webpackBootstrap
       title: { string: string, 'undefined': 'undefined' },
       width: { number: number },
       value: { number: number, 'undefined': 'undefined' },
+      csNodeAlign: {
+        enabled: { boolean: boolean },
+        clearColor: { string: string },
+        __type__: { object: object, boolean: boolean }
+      },
       __type__: { object: object }
     },
     groups: {
@@ -41612,7 +41633,11 @@ return /******/ (function(modules) { // webpackBootstrap
         forceDirection: ['horizontal', 'vertical', 'none'],
         roundness: [0.5, 0, 1, 0.05]
       },
-      width: [1, 0, 30, 1]
+      width: [1, 0, 30, 1],
+      csNodeAlign: {
+        enabled: false,
+        clearColor: ['color', '#e4e4e4']
+      }
     },
     layout: {
       //randomSeed: [0, 0, 500, 1],
@@ -42275,7 +42300,13 @@ return /******/ (function(modules) { // webpackBootstrap
     /**
      * Draw an arrow point (no line)
      */
-    CanvasRenderingContext2D.prototype.arrow = function (x, y, angle, length) {
+    CanvasRenderingContext2D.prototype.arrow = function (xVar, yVar, angle, length, lineWidth) {
+      /**
+       * XORS add alignment to node border
+       */
+      var x = lineWidth ? xVar - lineWidth * Math.cos(angle) : xVar;
+      var y = lineWidth ? yVar - lineWidth * Math.sin(angle) : yVar;
+
       // tail
       var xt = x - length * Math.cos(angle);
       var yt = y - length * Math.sin(angle);
