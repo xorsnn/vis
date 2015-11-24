@@ -5,7 +5,7 @@
  * A dynamic, browser-based visualization library.
  *
  * @version 4.8.1
- * @date    2015-11-17
+ * @date    2015-11-24
  *
  * @license
  * Copyright (C) 2011-2015 Almende B.V, http://almende.com
@@ -32656,7 +32656,7 @@ return /******/ (function(modules) { // webpackBootstrap
           if (this.options.csNodeAlign.enabled) {
             ctx.save();
             ctx.lineWidth += ctx.lineWidth * 0.05;
-            ctx.strokeStyle = '#e4e4e4'; //todo move to settings
+            ctx.strokeStyle = '#ffffff'; //todo move to settings
             ctx.beginPath();
             ctx.moveTo(arrowPos.x + length * Math.cos(angle), arrowPos.y + length * Math.sin(angle));
             ctx.lineTo(arrowPos.x - length * Math.cos(angle), arrowPos.y - length * Math.sin(angle));
