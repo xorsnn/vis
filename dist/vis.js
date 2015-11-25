@@ -5,7 +5,7 @@
  * A dynamic, browser-based visualization library.
  *
  * @version 4.8.1
- * @date    2015-11-24
+ * @date    2015-11-25
  *
  * @license
  * Copyright (C) 2011-2015 Almende B.V, http://almende.com
@@ -29073,6 +29073,11 @@ return /******/ (function(modules) { // webpackBootstrap
         this._drawRemoveBtn(ctx, x, y);
         // ctx.strokeRect(this.left, this.top, this.width, this.height);
       }
+
+      //
+      // chainalysis, pin&del
+      //
+
     }, {
       key: '_drawPinBtn',
       value: function _drawPinBtn(ctx, x, y) {
@@ -29097,17 +29102,22 @@ return /******/ (function(modules) { // webpackBootstrap
         ctx.arc(0, 0, btnSize / 2, 0, 2 * Math.PI);
         ctx.fill();
 
+        ctx.rotate(Math.PI);
+        ctx.fillStyle = '#BBB';
         if (!this.options.controls.pinned) {
           ctx.rotate(Math.PI / 6);
+          ctx.fillStyle = '#FFF';
         }
 
-        ctx.scale(1 / this.body.view.scale, 1 / this.body.view.scale);
+        var iconOffset = 5.0 / this.body.view.scale;
+        var iconScale = 7 * (16 / 12) / 1152 / this.body.view.scale;
 
-        ctx.fillStyle = '#BBB';
-        ctx.font = '10pt FontAwesome';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText('', 0, 0);
+        ctx.translate(-btnSize / 2 + iconOffset, -btnSize / 2 + iconOffset);
+        ctx.scale(iconScale, iconScale);
+
+        var path = new Path2D('M480 672v448q0 14 -9 23t-23 9t-23 -9t-9 -23v-448q0 -14 9 -23t23 -9t23 9t9 23zM1152 320q0 -26 -19 -45t-45 -19h-429l-51 -483q-2 -12 -10.5 -20.5t-20.5 -8.5h-1q-27 0 -32 27l-76 485h-404q-26 0 -45 19t-19 45q0 123 78.5 221.5t177.5 98.5v512q-52 0 -90 38 t-38 90t38 90t90 38h640q52 0 90 -38t38 -90t-38 -90t-90 -38v-512q99 0 177.5 -98.5t78.5 -221.5z');
+
+        ctx.fill(path);
 
         ctx.restore();
       }
@@ -29135,13 +29145,17 @@ return /******/ (function(modules) { // webpackBootstrap
         ctx.arc(0, 0, btnSize / 2, 0, 2 * Math.PI);
         ctx.fill();
 
-        ctx.scale(1 / this.body.view.scale, 1 / this.body.view.scale);
-
         ctx.fillStyle = '#FFF';
-        ctx.font = '10pt FontAwesome';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText('', 0, 0);
+
+        var iconOffset = 4.5 / this.body.view.scale;
+        var iconScale = 7 * (16 / 12) / 1152 / this.body.view.scale;
+
+        ctx.translate(-btnSize / 2 + iconOffset, -btnSize / 2 + iconOffset);
+        ctx.scale(iconScale, iconScale);
+
+        var path = new Path2D("M1298 214q0 -40 -28 -68l-136 -136q-28 -28 -68 -28t-68 28l-294 294l-294 -294q-28 -28 -68 -28t-68 28l-136 136q-28 28 -28 68t28 68l294 294l-294 294q-28 28 -28 68t28 68l136 136q28 28 68 28t68 -28l294 -294l294 294q28 28 68 28t68 -28l136 -136q28 -28 28 -68 t-28 -68l-294 -294l294 -294q28 -28 28 -68z");
+
+        ctx.fill(path);
 
         ctx.restore();
       }
