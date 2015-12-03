@@ -32672,8 +32672,8 @@ return /******/ (function(modules) { // webpackBootstrap
             ctx.lineWidth += ctx.lineWidth * 0.1;
             ctx.strokeStyle = '#ffffff'; //todo move to settings
             ctx.beginPath();
-            ctx.moveTo(arrowPos.x + 1.3 * length * Math.cos(angle), arrowPos.y + 1.3 * length * Math.sin(angle));
-            ctx.lineTo(arrowPos.x - 1.3 * length * Math.cos(angle), arrowPos.y - 1.3 * length * Math.sin(angle));
+            ctx.moveTo(arrowPos.x + 1.5 * length * Math.cos(angle), arrowPos.y + 1.5 * length * Math.sin(angle));
+            ctx.lineTo(arrowPos.x - 1.5 * length * Math.cos(angle), arrowPos.y - 1.5 * length * Math.sin(angle));
             ctx.stroke();
             ctx.restore();
             ctx.arrow(arrowPos.x, arrowPos.y, angle, length, ctx.lineWidth);
