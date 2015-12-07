@@ -29051,7 +29051,7 @@ return /******/ (function(modules) { // webpackBootstrap
       }
     }, {
       key: 'checkButton',
-      value: function checkButton(x, y) {
+      value: function checkButton(x, y, node) {
         if (this.left == null || this.top == null) {
           return false;
         }
@@ -29063,7 +29063,60 @@ return /******/ (function(modules) { // webpackBootstrap
         }
         var r = x - this.left,
             bs = this._btnSize(); // quick & dirty
-        return r <= bs ? 'remove' : this.width - bs <= r ? 'pin' : false;
+
+        var me = this;
+        //XORS
+        //check pin		   
+        function checkPin() {
+          var buttonRelativeX = Math.round((me.options.size + bs / 2) * Math.sin(Math.PI / 180 * 30));
+          var buttonRelativeY = -Math.round((me.options.size + bs / 2) * Math.cos(Math.PI / 180 * 30));
+
+          if (buttonRelativeX < bs / 2) {
+            var alfa = Math.asin(bs / 2 / (bs / 2 + me.options.size));
+            buttonRelativeX = Math.round((me.options.size + bs / 2) * Math.sin(alfa));
+            buttonRelativeY = -Math.round((me.options.size + bs / 2) * Math.cos(alfa));
+          }
+
+          buttonRelativeX += node.x;
+          buttonRelativeY += node.y;
+
+          if (Math.pow(buttonRelativeX - x, 2) + Math.pow(buttonRelativeY - y, 2) < Math.pow(bs / 2, 2)) {
+            return true;
+          } else {
+            return false;
+          }
+        }
+
+        //check delete
+        function checkDel() {
+          var buttonRelativeX = -Math.round((me.options.size + bs / 2) * Math.sin(Math.PI / 180 * 30));
+          var buttonRelativeY = -Math.round((me.options.size + bs / 2) * Math.cos(Math.PI / 180 * 30));
+
+          if (buttonRelativeX > -bs / 2) {
+            var alfa = Math.asin(bs / 2 / (bs / 2 + me.options.size));
+            buttonRelativeX = -Math.round((me.options.size + bs / 2) * Math.sin(alfa));
+            buttonRelativeY = -Math.round((me.options.size + bs / 2) * Math.cos(alfa));
+          }
+
+          buttonRelativeX += node.x;
+          buttonRelativeY += node.y;
+
+          if (Math.pow(buttonRelativeX - x, 2) + Math.pow(buttonRelativeY - y, 2) < Math.pow(bs / 2, 2)) {
+            return true;
+          } else {
+            return false;
+          }
+        }
+
+        if (checkDel()) {
+          return 'remove';
+        } else if (checkPin()) {
+          return 'pin';
+        } else {
+          return false;
+        }
+
+        //return r <= bs ? 'remove' : (this.width - bs) <= r ? 'pin' : false;
       }
     }, {
       key: 'draw',
@@ -38622,7 +38675,7 @@ return /******/ (function(modules) { // webpackBootstrap
         Object.keys(nodes).filter(function (key) {
           return key.substr(0, 7) !== 'edgeId:';
         }).forEach(function (key) {
-          var btn = nodes[key].controlsModule.checkButton(canvasPos.x, canvasPos.y);
+          var btn = nodes[key].controlsModule.checkButton(canvasPos.x, canvasPos.y, nodes[key]);
           if (btn) {
             clicks.push({ node: key, button: btn });
           }
