@@ -5,7 +5,7 @@
  * A dynamic, browser-based visualization library.
  *
  * @version 4.8.1
- * @date    2015-12-07
+ * @date    2015-12-08
  *
  * @license
  * Copyright (C) 2011-2015 Almende B.V, http://almende.com
@@ -38019,7 +38019,9 @@ return /******/ (function(modules) { // webpackBootstrap
           // if the popup was not hidden above
           if (this.popup.hidden === false) {
             popupVisible = true;
-            this.popup.setPosition(pointer.x + 3, pointer.y - 5);
+            // XORS hotfix
+            //this.popup.setPosition(pointer.x + 3, pointer.y - 5);
+            this.popup.setPosition(pointer.x + 10, pointer.y + 20);
             this.popup.show();
           }
         }
@@ -38137,7 +38139,9 @@ return /******/ (function(modules) { // webpackBootstrap
             // adjust a small offset such that the mouse cursor is located in the
             // bottom left location of the popup, and you can easily move over the
             // popup area
-            this.popup.setPosition(pointer.x + 3, pointer.y - 5);
+            // XORS hotfix
+            //this.popup.setPosition(pointer.x + 3, pointer.y - 5);
+            this.popup.setPosition(pointer.x + 10, pointer.y + 20);
             this.popup.setText(this.popupObj.getTitle());
             this.popup.show();
             this.body.emitter.emit('showPopup', this.popupObj.id);
