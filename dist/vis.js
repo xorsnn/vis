@@ -5,7 +5,7 @@
  * A dynamic, browser-based visualization library.
  *
  * @version 4.8.1
- * @date    2015-12-08
+ * @date    2015-12-16
  *
  * @license
  * Copyright (C) 2011-2015 Almende B.V, http://almende.com
@@ -29065,8 +29065,9 @@ return /******/ (function(modules) { // webpackBootstrap
             bs = this._btnSize(); // quick & dirty
 
         var me = this;
-        //XORS
-        //check pin		   
+
+        // XORS
+        // check pin		   
         function checkPin() {
           var buttonRelativeX = Math.round((me.options.size + bs / 2) * Math.sin(Math.PI / 180 * 30));
           var buttonRelativeY = -Math.round((me.options.size + bs / 2) * Math.cos(Math.PI / 180 * 30));
@@ -29087,7 +29088,7 @@ return /******/ (function(modules) { // webpackBootstrap
           }
         }
 
-        //check delete
+        // check delete
         function checkDel() {
           var buttonRelativeX = -Math.round((me.options.size + bs / 2) * Math.sin(Math.PI / 180 * 30));
           var buttonRelativeY = -Math.round((me.options.size + bs / 2) * Math.cos(Math.PI / 180 * 30));
@@ -29122,8 +29123,11 @@ return /******/ (function(modules) { // webpackBootstrap
       key: 'draw',
       value: function draw(ctx, x, y) {
         this._updateBoundingBox(x, y);
-        this._drawPinBtn(ctx, x, y);
-        this._drawRemoveBtn(ctx, x, y);
+
+        if (this.body.view.scale > 0.25) {
+          this._drawPinBtn(ctx, x, y);
+          this._drawRemoveBtn(ctx, x, y);
+        }
         // ctx.strokeRect(this.left, this.top, this.width, this.height);
       }
 
