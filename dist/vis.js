@@ -5,7 +5,7 @@
  * A dynamic, browser-based visualization library.
  *
  * @version 4.8.1
- * @date    2015-12-16
+ * @date    2015-12-17
  *
  * @license
  * Copyright (C) 2011-2015 Almende B.V, http://almende.com
@@ -29124,7 +29124,7 @@ return /******/ (function(modules) { // webpackBootstrap
       value: function draw(ctx, x, y) {
         this._updateBoundingBox(x, y);
 
-        if (this.body.view.scale > 0.25) {
+        if (this.body.view.scale > 0.15) {
           this._drawPinBtn(ctx, x, y);
           this._drawRemoveBtn(ctx, x, y);
         }
